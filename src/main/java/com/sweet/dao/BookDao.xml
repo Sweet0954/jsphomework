@@ -41,12 +41,13 @@
         set name    = #{name},
             author  = #{author},
             version = #{version},
-            price   = #{price}
+            price   = #{price},
+            sales = #{sales}
         where id = #{id};
     </update>
     <!-- 添加图书 -->
     <insert id="addBook" parameterType="book">
-        insert into t_book(name , author ,version,price,imgPath, link,extractioncode) values
+        insert into t_book(name , author ,version,price,img_path, link,extractioncode) values
         (#{name},#{author},#{version} ,#{price}, #{imgPath}
         ,#{link},#{extractioncode})
     </insert>

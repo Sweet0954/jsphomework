@@ -9,6 +9,7 @@ import com.sweet.util.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
@@ -52,15 +53,19 @@ public class OrderServiceImpl implements OrderService {
             // 保存订单项到数据库
             orderItemDao.addOrderItem(orderItem);
 
-            // 更新销量和库存
+            // 更新销量
             Book book = bookDao.queryBookById(cartItem.getId());
             book.setSales( book.getSales() + cartItem.getCount() );
 
-            bookDao.addBook(book);
+            bookDao.updateBook(book);
         }
         // 清空购物车
         cart.clear();
 
         return orderId;
+    }
+
+    public List<Order> queryOrderById(int id) {
+        return orderDao.queryOrderById(id);
     }
 }

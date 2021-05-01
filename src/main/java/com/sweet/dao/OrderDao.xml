@@ -6,4 +6,8 @@
     <insert id="saveOrder" parameterType="order">
         insert into t_order values (#{orderId}, #{createTime}, #{price}, #{status}, #{userId})
     </insert>
+    <!--查找订单-->
+    <select id="queryOrderById" resultType="order">
+        select * from t_order where user_id = #{id}
+    </select>
 </mapper>

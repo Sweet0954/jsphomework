@@ -15,6 +15,20 @@
             $(".deleteItem").click(function () {
                 return confirm("你确定要删除【"+ $(this).parent().parent().find("td:first").text() +"】?");
             });
+           /* $(".allCheckBox").click(function () {
+                var check = $(".allCheckBox").prop('checked');
+                if (check == true) {
+                    location.href = "cart/totalPrice";
+                    $(".allCheckBox").prop("checked",true);
+                    $(".itemCheckBox").prop("checked",true);
+                } else {
+                    $(".itemCheckBox").prop("checked",false);
+                }
+            });
+            $(".itemCheckBox").click(function () {
+                var id = $(".itemId").val();
+                alert(id);
+            });*/
         });
     </script>
 </head>
@@ -26,12 +40,17 @@
 </div>
 <div class="x-body">
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn layui-btn-danger" onclick="x_admin_show('订单详情','cart/addOrder/${sessionScope.user.id}',600,400)"><i class="layui-icon">&#xe65e;</i>${totalPrice!=0?totalPrice:""}清空购物车</button>
         <span class="x-right" style="line-height:40px">共有数据：${sessionScope.cart.items.size()} 条</span>
     </xblock>
     <table class="layui-table">
         <thead>
         <tr>
+            <%--<c:if test="${not empty sessionScope.cart.items}">
+                <th>
+                    <input type="checkbox" name="" lay-skin="primary" class="allCheckBox">
+                </th>
+            </c:if>--%>
             <th>商品名称</th>
             <th>数量</th>
             <th>单价</th>
@@ -48,6 +67,10 @@
         <c:if test="${not empty sessionScope.cart.items}">
             <c:forEach items="${cart.items}" var="entry">
                 <tr>
+                    <%--<input type="hidden" class="itemId" value="${entry.key}">--%>
+                    <%--<td>
+                        <input type="checkbox" name="" lay-skin="primary" class="itemCheckBox">
+                    </td>--%>
                     <td>${entry.value.name}</td>
                     <td>${entry.value.count}</td>
                     <td>${entry.value.price}</td>

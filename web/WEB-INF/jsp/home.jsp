@@ -30,7 +30,7 @@
         </ul>
         <ul class="layui-nav right" lay-filter="">
           <li class="layui-nav-item">
-            <a href="javascript:;">${sessionScope.user.username}</a>
+            <a href="javascript:;">${user.username}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
               <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
               <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
@@ -56,7 +56,7 @@
                 <ul class="sub-menu">
                     <li>
                         <a _href="book/cart">
-                            <i class="iconfont">&#xe6a7;</i>
+                            <i class="layui-icon" style="color: #1E9FFF">&#xe657;</i>
                             <cite>购物车</cite>
                         </a>
                 </ul>
@@ -69,7 +69,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="order-list.html">
+                        <a _href="cart/order/${sessionScope.user.id}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>订单列表</cite>
                         </a>

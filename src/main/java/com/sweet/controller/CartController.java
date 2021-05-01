@@ -3,6 +3,7 @@ package com.sweet.controller;
 import com.sweet.pojo.Book;
 import com.sweet.pojo.Cart;
 import com.sweet.pojo.CartItem;
+import com.sweet.pojo.Order;
 import com.sweet.service.BookService;
 import com.sweet.service.OrderService;
 import com.sweet.service.serviceImpl.BookServiceImpl;
@@ -11,12 +12,14 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -47,7 +50,8 @@ public class CartController {
         // 最后一个添加的商品名称
         // 6、返回购物车总的商品数量和最后一个添加的商品名称
         model.addAttribute("lastName", cartItem.getName());
-
+        BigDecimal totalPrice = cart.getTotalPrice();
+        model.addAttribute("totalPrice", totalPrice);
         return "cart";
     }
 
@@ -81,5 +85,36 @@ public class CartController {
         Cart cart = (Cart) session.getAttribute("cart");
         cart.deleteItem(id);
         return "cart";
+    }
+
+    // 返回当前选择的商品总金额
+    @RequestMapping("totalPrice")
+    public String totalPrice(Model model, HttpSession session) {
+        // 获取购物车对象
+        Cart cart = (Cart) session.getAttribute("cart");
+        BigDecimal totalPrice = cart.getTotalPrice();
+        model.addAttribute("totalPrice", totalPrice);
+        return "cart";
+    }
+
+    // 清空购物车，结算保存在数据库中
+    @RequestMapping("addOrder/{id}")
+    public String clearCart(@PathVariable int id, Model model, HttpSession session) {
+        Cart cart = (Cart) session.getAttribute("cart");
+        String order = orderService.createOrder(cart, id);
+        System.out.println(order);
+        cart.clear();
+        model.addAttribute("cart", cart);
+        List<Order> orderList = orderService.queryOrderById(id);
+        model.addAttribute("orderList",orderList);
+        return "order";
+    }
+
+    // 查找订单
+    @RequestMapping("order/{id}")
+    public String qqueryOrder(@PathVariable int id, Model model) {
+        List<Order> orderList = orderService.queryOrderById(id);
+        model.addAttribute("orderList",orderList);
+        return "order";
     }
 }

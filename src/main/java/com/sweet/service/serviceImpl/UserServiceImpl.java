@@ -18,4 +18,12 @@ public class UserServiceImpl implements UserService {
     public User loginUser(User user) {
         return userDao.loginUser(user);
     }
+
+    public int regist(User user) {
+        return userDao.regist(user);
+    }
+
+    public int forgetPassword(User user) {
+        return userDao.forgetPassword(user);
+    }
 }
